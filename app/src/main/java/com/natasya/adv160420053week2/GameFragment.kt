@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_game.*
-import kotlinx.android.synthetic.main.fragment_main.*
 
 class GameFragment : Fragment() {
     override fun onCreateView(
@@ -23,10 +22,25 @@ class GameFragment : Fragment() {
         var number1 = (0..20).random()
         var number2 = (0..20).random()
         var result = number1 + number2
+        var score = 0
         txtQuestion.text = "$number1 + $number2"
         if (arguments != null){
-            val  playerName = GameFragmentArgs.fromBundle(requireArguments()).playerName
+            val playerName = GameFragmentArgs.fromBundle(requireArguments()).playerName
             txtTurn.text = "$playerName's Turn"
+        }
+        btnSubmitAnswer.setOnClickListener {
+            var answer = txtAnswer.text.toString().toInt()
+            if (answer == result){
+                score += 1
+                number1 = (0..20).random()
+                number2 = (0..20).random()
+                result = number1 + number2
+                txtQuestion.text = "$number1 + $number2"
+            }
+            else{
+                val action = GameFragmentDirections.actionResultFragment(score.toString());
+                Navigation.findNavController(it).navigate(action)
+            }
         }
         btnBack.setOnClickListener {
             val action = GameFragmentDirections.actionMainFragment()
