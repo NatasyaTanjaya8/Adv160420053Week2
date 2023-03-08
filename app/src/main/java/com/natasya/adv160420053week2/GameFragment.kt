@@ -20,6 +20,10 @@ class GameFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var number1 = (0..20).random()
+        var number2 = (0..20).random()
+        var result = number1 + number2
+        txtQuestion.text = "$number1 + $number2"
         if (arguments != null){
             val  playerName = GameFragmentArgs.fromBundle(requireArguments()).playerName
             txtTurn.text = "$playerName's Turn"
